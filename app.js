@@ -2,23 +2,6 @@
  * Create a list that holds all of your cards
  */
 
-var cards = ['fa-diamond', 'fa-diamond',
-			 'fa-paper-plane-o', 'fa-paper-plane-o',
-			 'fa-anchor', 'fa-anchor',
-			 'fa-bolt', 'fa-bolt',
-			 'fa-cube', 'fa-cube',
-			 'fa-leaf', 'fa-leaf',
-			 'fa-bicycle', 'fa-bicycle',
-			 'fa-bomb', 'fa-bomb'
-			 ];
-
-
-function generateCard(card) {
-	return '<li class="card"><i class="fa ${cards}"></i></li>';
-}
-
-
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -41,6 +24,66 @@ function shuffle(array) {
     return array;
 }
 
+//event listner on cards in deck element
+const deck = document.querySelector('.deck');
+console.log(deck);
+
+var selectedCards = [];
+console.log(selectedCards);
+
+deck.addEventListener ('click', event => {
+	const clickTarget = event.target;
+	if (isClickValid(clickTarget)) {
+		toggleCard(clickTarget);
+		addSelectedCard(clickTarget);
+		if (selectedCards.length === 2) {
+			checkForMatch(clickTarget);
+		} 
+		//console.log("I am a card")
+	}
+});
+
+//function to check to see if the click is valid
+function isClickValid(clickTarget) {
+	return (clickTarget.classList.contains('card') &&
+		!clickTarget.classList.contains('match')
+		&& selectedCards.length < 2
+		&& !selectedCards.includes(clickTarget)
+		); 
+		
+}
+
+//function to toggle cards
+function toggleCard(card) {
+	card.classList.toggle('open');
+	card.classList.toggle('show');
+}
+
+//add cards to the selectedCards array
+function addSelectedCard(clickTarget) {
+	selectedCards.push(clickTarget);
+	console.log(selectedCards);
+}
+
+function checkForMatch(){
+	if(
+		selectedCards[0].firstElementChild.className === 
+		selectedCards[1].firstElementChild.className) 
+	{
+		selectedCards[0].classList.toggle('match');
+		selectedCards[1].classList.toggle('match');
+		selectedCards = [];
+
+	} else {
+		setTimeout(() => {
+			toggleCard(selectedCards[0]);
+			toggleCard(selectedCards[1]);
+			selectedCards = [];
+		}, 1000);
+		console.log('Not a match!');
+	}
+}
+	
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -52,43 +95,3 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
- function initGame(){
- 	var deck = document.querySelector('.deck');
- 	var cardHTML = cards.map(function(card) {
- 		return generateCard(card);
- 	});
-
- 	deck.innerHTML = cardHTML.join('');
-
- }
-
- initGame();
-
-
-
-var allCards = document.querySelectorAll('.card'); //returns a static (not live) NodeList representing a list of the document's elements that match the specified group of selectors
-var openCards = []; //creates an array of all cards that have been opened
-
-allCards.forEach(function(card) {
-	card.addEventListener('click', function (e) {
-
-		if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) //really dont understand what this is doing
-		openCards.push(card);
-		card.classList.add('open', 'show');
-
-		//Check to see if cards match
-		var firstCardType = openCards[0].querySelector('i').classList.item(1)
-
-		//remove cards if they dont match
-		if (openCards.length == 2) {
-			setTimeout(function() {
-				openCards.forEach(function(card) {
-					card.classList.remove('open', 'show');
-				});
-
-				openCards = [];
-			}, 1000);
-		}
-	});
-});
