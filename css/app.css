@@ -17,7 +17,7 @@ body {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/nuggets3.jpg'); /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
 }
 
@@ -29,8 +29,9 @@ body {
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-weight: 300;
+    text-shadow: 2px 2px white;
 }
 
 /*
@@ -40,7 +41,8 @@ h1 {
 .deck {
     width: 660px;
     min-height: 680px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    background: #0E2240;
+    /*background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%); Old code */
     padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
@@ -54,7 +56,7 @@ h1 {
 .deck .card {
     height: 125px;
     width: 125px;
-    background: #2e3d49;
+    background: #1D428A; /*Old setting #2e3d49*/
     font-size: 0;
     color: #ffffff;
     border-radius: 8px;
@@ -66,9 +68,12 @@ h1 {
 }
 
 .deck .card.open {
-    transform: rotateY(0);
-    background: #02b3e4;
+    /*transform: rotateY(0);*/
+    background: #FEC524; /*Old setting #02b3e4*/
     cursor: default;
+    /*New code*/
+    animation-name: flipInY;
+    animation-duration: 0.5s;
 }
 
 .deck .card.show {
@@ -77,9 +82,88 @@ h1 {
 
 .deck .card.match {
     cursor: default;
-    background: #02ccba;
+    background: #8B2131; /*Old setting #02ccba */
     font-size: 33px;
+    /*New Code*/
+    animation-name: rubberBand;
+  /*backface-visibility: visible;
+    -webkit-backface-visibility: visible;*/
+    animation-duration: 0.5s;
 }
+
+/* Animations */
+
+/* @keyframes is a rule (built into CSS) that specifies animation code */
+@keyframes flipInY {
+    from {
+        transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+    }
+
+    40% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+        animation-timing-function: ease-in;
+    }
+
+    60% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+        opacity: 1;
+    }
+
+    80% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+    }
+
+    to {
+        transform: perspective(400px);
+    }
+}
+
+@keyframes rubberBand {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+
+    65% {
+        transform: scale3d(.95, 1.05, 1);
+    }
+
+    75% {
+        transform: scale3d(1.05, .95, 1);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes pulse {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+        transform: scale3d(1.2, 1.2, 1.2);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
 
 /*
  * Styles for the Score Panel
@@ -125,7 +209,7 @@ h1 {
     /*height: 400px; removed*/
     top: 50%;
     left: 50%;
-    background: #ffffff;
+    background: #ffffff url('../img/nuggets3.jpg');
     transform: translate(-50%, -40%);
 }
 
