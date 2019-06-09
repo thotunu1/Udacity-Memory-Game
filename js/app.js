@@ -38,7 +38,7 @@ function addMove() {
 
 //function to check moves to see if application needs to remove stars from the HTML page
 function checkScore() {
-	if (moves === 10 || moves === 20) {
+	if (moves === 20 || moves === 40) {
 		hideStar();
 	}
 }
